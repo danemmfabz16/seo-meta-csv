@@ -11,24 +11,26 @@ class Theme_Admin{
 	}
 
 	public function general_settings(){
-		if( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ){
-			?>
-
-				<div class="wrap">
-					<h2>Options</h2>
-				</div><!-- .wrap -->
-
-			<?php
-		}
-		else{
+		if( is_plugin_active( 'wordpress-seo/wp-seo.php' ) )
+			echo $this->activated_yoast();		
+		else
 			echo $this->deactivated_yoast();
-		}
+	}
 
+	public function activated_yoast(){
+		$output = '<div class="wrap">';
+		$output .= '<h2><em>Options</em></h2>';
+		$output .= '<form enctype="multipart/form-data" method="post" id="upload-csv">';
+			$output .= '<input type="file" name="csv_file" />';
+			$output .= '<input type="submit" name="csv_uploader" value="Upload CSV" />';
+		$output .= '</form>';
+		$output .= '</div>';
+		return $output;
 	}
 	
 	public function deactivated_yoast(){
 		$output = '<div class="wrap">';
-		$output .= '<h2>Plugin Yoast deactivated.</h2>';
+		$output .= '<h2><em>Plugin Yoast deactivated.</em></h2>';
 		$output .= '</div>';
 		return $output;
 	}
