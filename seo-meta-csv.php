@@ -10,4 +10,10 @@
  * Text Domain: seo-meta-csv
  * License: GPL v3
  */
+if ( ! defined( 'ABSPATH' ) ) {
+	exit( 'Sorry, you are not allowed to access this file directly.' );
+}
 
+define( 'SMC_PLUGIN_DIR', dirname( __FILE__ ) );
+
+require_once( SMC_PLUGIN_DIR . '/inc/classes/theme_admin.php' );
