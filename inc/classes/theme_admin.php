@@ -18,13 +18,16 @@ class Theme_Admin{
 	}
 
 	public function activated_yoast(){
+		$key_1_value = get_post_meta( 2, '_yoast_wpseo_focuskw', true );
 		$output = '<div class="wrap">';
 		$output .= '<h2><em>Options</em></h2>';
 		$output .= '<form enctype="multipart/form-data" method="post" id="upload-csv">';
 			$output .= '<input type="file" name="csv_file" />';
 			$output .= '<input type="submit" name="csv_uploader" value="Upload CSV" />';
 		$output .= '</form>';
+		$output .= '<h1>'.$key_1_value.'</h1>';
 		$output .= '</div>';
+
 		return $output;
 	}
 	
