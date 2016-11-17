@@ -14,6 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
+if ( ! function_exists( 'wp_handle_upload' ) ) {
+		    require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		}
+
 define( 'SMC_PLUGIN_DIR', dirname( __FILE__ ) );
 
 require_once( SMC_PLUGIN_DIR . '/inc/classes/config.php' );
