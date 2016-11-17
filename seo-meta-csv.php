@@ -16,4 +16,5 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'SMC_PLUGIN_DIR', dirname( __FILE__ ) );
 
+require_once( SMC_PLUGIN_DIR . '/inc/classes/config.php' );
 require_once( SMC_PLUGIN_DIR . '/inc/classes/theme_admin.php' );

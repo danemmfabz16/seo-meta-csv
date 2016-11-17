@@ -2,8 +2,12 @@
 
 class Theme_Admin{
 
+	public $config;
+
 	public function __construct(){
 		add_action( 'admin_menu', array($this, 'admin_options') );
+
+		$this->config = new Config();
 	}
 
 	public function admin_options(){
@@ -11,10 +15,16 @@ class Theme_Admin{
 	}
 
 	public function general_settings(){
-		if( is_plugin_active( 'wordpress-seo/wp-seo.php' ) )
-			echo $this->activated_yoast();		
-		else
+		if( is_plugin_active( 'wordpress-seo/wp-seo.php' ) ){
+			echo $this->activated_yoast();	
+
+			echo '<pre>';
+			print_r($this->config->check_existing_rows());
+		}	
+		else{
 			echo $this->deactivated_yoast();
+		}
+
 	}
 
 	public function activated_yoast(){
