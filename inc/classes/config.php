@@ -19,7 +19,6 @@ class Config{
 		return $results;
    	}
 
-   	
 
 
 }

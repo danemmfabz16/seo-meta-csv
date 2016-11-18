@@ -1,14 +1,24 @@
 jQuery(document).ready(function(){
 	
 	jQuery('#upload-csv').on('submit', function(e){
+		
 		e.preventDefault();
-		var data = {
-			'action': 	'my_action'
-		};
+		var formdata = new FormData(this);
+		formdata.append('action', 'file_validate');
 
-		jQuery.post(ajax_object.ajax_url, data, function(response) {
-			alert(response);
-		});
+		jQuery.ajax({  
+            url: ajax_object.ajax_url,  
+            method: "POST",  
+            data: formdata,  
+            contentType: false,      
+            cache: false,               
+           	processData: false,     
+            success: function(data){  
+                alert(data);
+            }  
+        });  
+
+
 	});
 
 });

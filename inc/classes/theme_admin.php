@@ -6,11 +6,9 @@ class Theme_Admin{
 
 	public function __construct(){
 		add_action( 'admin_menu', array($this, 'admin_options') );
-		add_action( 'admin_enqueue_scripts', array($this, 'add_script_main') );
-		add_action( 'wp_ajax_my_action', array($this, 'my_action_callback') );
-		add_action( 'wp_ajax_nopriv_my_action', array($this, 'my_action_callback') );
-
-		
+		add_action( 'admin_enqueue_scripts', array($this, 'add_script') );
+		add_action( 'wp_ajax_file_validate', array($this, 'file_validate') );
+		add_action( 'wp_ajax_nopriv_file_validate', array($this, 'file_validate') );
 
 		$this->config = new Config();
 	}
@@ -47,33 +45,55 @@ class Theme_Admin{
 		return $output;
 	}
 
-	function my_action_callback() {
-		$uploadedfile = $_FILES['filebutton'];
-		$movefile = wp_handle_upload( $uploadedfile );
-		if(!empty($movefile["file"])) {  
+	/*
+	* Ajax callback function for file validation
+	*/
+	function file_validate() {
 
-		      //$connect = mysqli_connect("localhost", "root", "", "testing");  
-		      $output = '';  
-		      $allowed_ext = array("csv");  
-		      $extension = end(explode(".", $movefile["file"]));  
-		      if(in_array($extension, $allowed_ext)) {  
-		           echo 'Valid!';
-		      }  
-		      else {  
-		           echo 'Error1';
-		      }  
-		}  
+		if(!empty($_FILES["filebutton"]["name"])) {    
+			$allowed_ext = array("csv");  
+	    	$extension = end(explode(".", $_FILES["filebutton"]["name"]));  
+
+		    if(in_array($extension, $allowed_ext)) {  
+	        	
+	      	}  
+	      	else {  
+	           echo 'Error1';  
+	      	}  
+ 		}  
 		else {  
-		      echo $movefile["file"];
+		    echo "Error2";  
 		}  
 
 		die();
 	}
 
 	/*
-	* Add main.js
+	* Function for csv data upload
+	* @param $_FILE array
 	*/
-	function add_script_main($hook) {
+	public function upload_valid_csv(){
+		global $wpdb;
+		$wpdb->insert( 
+			       'smc_postmeta', 
+			            array( 
+			                'post_id' => 2,
+			                'meta_key' => '_yoast_wpseo_sitemap-include',
+			                'meta_value' => 'always'
+			        ), 
+			        array( 
+			            '%d',
+			            '%s',
+			            '%s'
+			        ) 
+			    );
+
+	} 
+
+	/*
+	* Includes js
+	*/
+	function add_script($hook) {
 	    wp_enqueue_script( 'smc-main-script', plugins_url() . '/seo-meta-csv/inc/script/main.js' );
 	    wp_localize_script( 'smc-main-script', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 	}
@@ -83,3 +103,4 @@ class Theme_Admin{
 
 
 $theme_admin = new Theme_Admin();
+$theme_admin->upload_valid_csv();
