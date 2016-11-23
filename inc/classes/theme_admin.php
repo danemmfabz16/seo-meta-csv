@@ -55,7 +55,10 @@ class Theme_Admin{
 	    	$extension = end(explode(".", $_FILES["filebutton"]["name"]));  
 
 		    if(in_array($extension, $allowed_ext)) {  
+	        	echo $_FILES["filebutton"]["name"];
+
 	        	
+
 	      	}  
 	      	else {  
 	           echo 'Error1';  
@@ -68,31 +71,9 @@ class Theme_Admin{
 		die();
 	}
 
-	/*
-	* Function for csv data upload
-	* @param $_FILE array
-	*/
-	public function upload_valid_csv(){
-		global $wpdb;
-		$wpdb->insert( 
-			       'smc_postmeta', 
-			            array( 
-			                'post_id' => 2,
-			                'meta_key' => '_yoast_wpseo_sitemap-include',
-			                'meta_value' => 'always'
-			        ), 
-			        array( 
-			            '%d',
-			            '%s',
-			            '%s'
-			        ) 
-			    );
-
-	} 
-
-	/*
-	* Includes js
-	*/
+	/***********************************/
+	// Includes js
+	/***********************************/
 	function add_script($hook) {
 	    wp_enqueue_script( 'smc-main-script', plugins_url() . '/seo-meta-csv/inc/script/main.js' );
 	    wp_localize_script( 'smc-main-script', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
@@ -103,4 +84,3 @@ class Theme_Admin{
 
 
 $theme_admin = new Theme_Admin();
-$theme_admin->upload_valid_csv();
