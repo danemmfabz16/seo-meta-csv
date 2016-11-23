@@ -10,7 +10,9 @@ class Theme_Admin{
 		add_action( 'wp_ajax_file_validate', array($this, 'file_validate') );
 		add_action( 'wp_ajax_nopriv_file_validate', array($this, 'file_validate') );
 
-		$this->config = new Config();
+		//$this->config = new Config();
+
+		
 	}
 
 	public function admin_options(){
@@ -54,11 +56,52 @@ class Theme_Admin{
 			$allowed_ext = array("csv");  
 	    	$extension = end(explode(".", $_FILES["filebutton"]["name"]));  
 
-		    if(in_array($extension, $allowed_ext)) {  
-	        	echo $_FILES["filebutton"]["name"];
+		    if(in_array($extension, $allowed_ext)) { 
+		    	global $wpdb; 
 
-	        	
+			   	/*$wpdb->insert( 
+					'smc_postmeta', 
+					array( 
+						'post_id' => 10, 
+						'meta_key' => '_yoast_wpseo_focuskw_text_input',
+						'meta_value' => 'test-only' 
+					), 
+					array( 
+						'%d', 
+						'%s',
+						'%s' 
+					) 
+				);*/
 
+					$file_data = fopen($_FILES["filebutton"]["tmp_name"], 'r');  
+		           	fgetcsv($file_data);  
+
+		           	$flag = true;
+		           	while( $row = fgetcsv($file_data)  ) {  
+
+		                $post_id = $row[0];  
+		                $meta_key = $row[1];  
+		                $meta_value = $row[2]; 
+		                
+
+		                $wpdb->insert( 'smc_postmeta', array( 
+											'post_id' => $post_id, 
+											'meta_key' => $meta_key,
+											'meta_value' => $meta_value 
+									), 
+										array( 
+											'%d', 
+											'%s',
+											'%s' 
+									) 
+						);		                
+
+		           	}
+
+
+					//fclose($file);
+
+	        	die();
 	      	}  
 	      	else {  
 	           echo 'Error1';  

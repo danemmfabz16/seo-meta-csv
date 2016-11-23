@@ -14,7 +14,7 @@ jQuery(document).ready(function(){
             cache: false,               
            	processData: false,     
             success: function(data){  
-                alert(data);
+                jQuery('.wrap').append(data);
             }  
         });  
 
